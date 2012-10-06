@@ -1,7 +1,12 @@
 package com.elppa.webserviceaccess;
 
 /**
- * @Description
+ * 
+ * @author James Oliver
+ * @version 0.5
+ * @since 05/10/2012
+ * This class is used by the GUI to retrieve share details from the Yahoo finance webservice.  We subsitiute the required columns and symbols into a YQL query
+ * (YQL is an SQL like language we can use to retrieve data from Yahoo Opentables.
  * 
  * 
  */
@@ -23,35 +28,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.os.AsyncTask;
 import android.util.Log;
-
-public class AccessWebserviceTask extends AsyncTask<String, Integer, ShareDetailsObject>
-{
-	String RequestDetails;
-	
-	public AccessWebserviceTask()
-	{
-		super();
-	
-	}
-	
-	@Override
-	protected ShareDetailsObject doInBackground(String... params) 
-	{
-		// TODO Auto-generated method stub
-		FetchYahooData FYD = new FetchYahooData();
-		ShareDetailsObject SDO = new ShareDetailsObject();
-		
-		String [] columns = {"AskRealtime"};
-		String [] symbols = {"yhoo", "goog", "aapl"};
-		int[] numberOfShares = { 100, 120, 140};
-		
-		FYD.TotalValueOfPortfolio(columns, symbols, numberOfShares);		
-		
-		return null;
-	}
-}
 
 /**
  * 
@@ -59,26 +36,21 @@ public class AccessWebserviceTask extends AsyncTask<String, Integer, ShareDetail
  *
  */
 
-class FetchYahooData
+public class FetchYahooData
 {
 	/**
 	 * URL - %1 is the YQL query
 	 * YQL - %1 is the stock symbol for which to search
 	 * 
 	 */
-	
-	float exchangeRate = 1.80f;
-	
-	String JSONResponse = new String();
-	
+
 	String URL = "http://query.yahooapis.com/v1/public/yql?q=%1&format=json&env=store://datatables.org/alltableswithkeys";
-	
-	String StringSelect;
-	
 	String YQL = "SELECT CC FROM yahoo.finance.quotes WHERE symbol IN (SS)";
+	String TIMEPERIOD = "";
+	String JSONResponse;
 		
 	/**
-	 * TODO Complete constructor
+	 * TODO Complete constructor (if necessary)
 	 */
 	public FetchYahooData()
 	{
@@ -87,19 +59,20 @@ class FetchYahooData
 	}
 
 	/**
-	 * Calculate the total value of the shares portfolio
+	 *  
+	 * GUI Task Thread must provide all company symbols and the columns required.
 	 * 
-	 * GUI Must provide all company symbols
-	 * 
-	 * @param Columns, Symbols
+	 * @param String[] Columns
+	 * @param String[] Symbols
+	 * @throws java.lang.Exception
+	 * @returns ShareDetailsObject array containing retrieved details.
 	 */
 	
-	public float TotalValueOfPortfolio(String[] Columns, String[] Symbols, int [] numberOfShares)
+	public ShareDetailsObject[] DownloadYahooData(String[] Columns, String[] Symbols) throws Exception
 	{
-		float totalValue = 0;
-		
 		StringBuilder SB = new StringBuilder();
-
+		ShareDetailsObject[] SDO;
+		
 		if(Columns.length == 1)
 			SB.append(Columns[0]);
 		else
@@ -109,8 +82,11 @@ class FetchYahooData
 					SB.append(Columns[i]+ ", ");
 			}
 		}
+				
+		/**
+		 *  Replace CC in the YQL statement with the columns we want
+		 */
 		
-		// Replace %1 with the columns we want
 		YQL = YQL.replace("CC", SB.toString());
 		
 		SB = new StringBuilder();
@@ -131,68 +107,65 @@ class FetchYahooData
 			}
 		}
 		
+		/**
+		 * Replace SS in the YQL statement with the symbols we want
+		 */
+		
 		YQL = YQL.replace("SS", SB.toString());
 
 		/**
 		 *  Fetch JSON feed from Yahoo API
 		 */
-		
-		System.out.println("YQL query: " + YQL);
-		System.out.println("URL: " + URL);
+		Log.i(FetchYahooData.class.toString(), "Fetch JSON from Yahoo Server");
 		
 		JSONResponse = fetchJSON();
-		
-		try
-        {
-        	int numberOfResults = 0;
-        	
-			JSONArray allDetails = new JSONArray(JSONResponse);
-        	
-        	JSONObject outer = allDetails.getJSONObject(0);
-        	
-        	JSONObject query = outer.getJSONObject("query");
-        	
-        	JSONObject results = query.getJSONObject("results");
-        	numberOfResults = Integer.valueOf(query.getString("count"));
-        	
-        	if(numberOfResults > 1)
-        	{
-	        	JSONArray quote = results.getJSONArray("quote");
-	        	        	
-	        	for(int i = 0; i < quote.length(); i++)
-	        	{
-	        		JSONObject currDetails = quote.getJSONObject(i);
-	        		
-	        		totalValue += Float.valueOf(currDetails.getString("AskRealtime")) * exchangeRate;
-	        	}
-        	}else
-        	{
-        		JSONObject quote = results.getJSONObject("quote");
-        		totalValue = Float.valueOf(quote.getString("AskRealtime")) * exchangeRate;
-        	}
-        } catch (Exception ex)
-        {
-        	ex.printStackTrace();
-        }
 
-		return totalValue;
-	}
+    	int numberOfResults = 0;
+    	
+		JSONArray allDetails = new JSONArray(JSONResponse);
+    	
+    	JSONObject outer = allDetails.getJSONObject(0);
+    	
+    	JSONObject query = outer.getJSONObject("query");
+    	
+    	/**
+    	 * TODO Modify code to extract date and time from JSON at "results" level object - may have to change depending on the requirements for the date and time...
+    	 * 
+    	 */
+    	
+    	JSONObject results = query.getJSONObject("results");
+    	numberOfResults = Integer.valueOf(query.getString("count"));
+    	
+    	SDO = new ShareDetailsObject[numberOfResults];
+    	
+    	if(numberOfResults > 1)
+    	{
+    		Log.i(FetchYahooData.class.toString(), "Fetching multiple items.");
+    		
+        	JSONArray quote = results.getJSONArray("quote");
+        	        	
+        	for(int i = 0; i < quote.length(); i++)
+        	{
+        		JSONObject currDetails = quote.getJSONObject(i);
+        		SDO[i] = new ShareDetailsObject();
+        		SDO[i].setShareValue(Float.valueOf((String) currDetails.get("AskRealtime")));
+        		SDO[i].setSymbol((String)currDetails.get("Symbol"));
+        		SDO[i].setDateTime((String) currDetails.get("Name"));
+        		SDO[i].setVolumeTraded(Float.valueOf((String) currDetails.get("Volume")));
+        	}
+    	}else
+    	{
+    		Log.i(FetchYahooData.class.toString(), "Fetching single item");
+    		
+    		JSONObject quoteDetails = results.getJSONObject("quote");
+    		SDO[0] = new ShareDetailsObject();
+    		SDO[0].setShareValue(Float.valueOf((String) quoteDetails.get("AskRealtime")));
+    		SDO[0].setSymbol((String)quoteDetails.get("symbol"));
+    		SDO[0].setDateTime((String)quoteDetails.get("Name"));
+    		SDO[0].setVolumeTraded(Float.valueOf((String) quoteDetails.getString("Volume")));
+    	}
 	
-	public String [] FetchWeeklyTrendForSymbol(String Symbol)
-	{
-		String [] QuoteDetails = new String[5];
-		
-		// Work out the date of last Friday
-		//
-		
-		return QuoteDetails;
-	}
-	
-	public String [] CheckForRunOnShare(String Symbol)
-	{
-		String [] RunDetails = new String[5];
-		
-		return RunDetails;
+		return SDO;	
 	}
 	
 	private String fetchJSON()
@@ -244,6 +217,7 @@ class FetchYahooData
     	}catch(IOException ex)
     	{
     		ex.printStackTrace();
+    		
     	}catch(IllegalArgumentException ex)
     	{
     		ex.printStackTrace();

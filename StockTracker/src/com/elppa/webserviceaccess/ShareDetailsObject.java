@@ -13,11 +13,13 @@ package com.elppa.webserviceaccess;
  */
 public class ShareDetailsObject
 {
-	String DateTime; // May or may not be good as a string - final date for presentation.
-	String Symbol;
-	String CompanyName;
-	float ShareValue;
-	float SharesOutstanding; // Large integer value
+	private String DateTime; // May or may not be good as a string - final date for presentation.
+	private String Symbol;
+	private String CompanyName;
+	private float ShareValue;
+	private float TotalValue;
+	private float SharesOutstanding; // Large integer value
+	private float ShareVolumeTraded;
 	
 	/**
 	 * Default constructor
@@ -79,6 +81,21 @@ public class ShareDetailsObject
 		return SharesOutstanding;
 	}
 	
+	public float getVolumeTraded()
+	{
+		return ShareVolumeTraded;
+	}
+	
+	public void updateShareValue(float numberOfShares)
+	{
+		if(numberOfShares > 0)
+			TotalValue = ShareValue * numberOfShares;
+	}
+	
+	public void setVolumeTraded(float newVolumeTraded)
+	{
+		ShareVolumeTraded = newVolumeTraded;
+	}
 	
 	public void setDateTime(String newDateTime)
 	{
@@ -104,7 +121,7 @@ public class ShareDetailsObject
 	
 	public void setSharesOutstanding(float newSharesOutstanding)
 	{
-		
-		SharesOutstanding = newSharesOutstanding;
+		if(newSharesOutstanding > 0)
+			SharesOutstanding = newSharesOutstanding;
 	}
 }
