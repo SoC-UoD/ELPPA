@@ -30,7 +30,6 @@ public class Home extends Activity
         
         testButton.setOnClickListener(new View.OnClickListener() 
         {
-			
 			@Override
 			public void onClick(View v) 
 			{
@@ -43,9 +42,6 @@ public class Home extends Activity
 				AccessWebserviceTask AWT = new AccessWebserviceTask();
 				
 				Log.i(Home.class.toString(), "Executing Web Service Task");
-				
-				
-				
 				
 				//Create arrays with the details required.
 				// TODO Create a static object with required share data.
@@ -110,17 +106,11 @@ public class Home extends Activity
     		String[] columns = params[0];
     		String[] symbols = params[1];
     		
-    		ShareDetailsObject [] SDO = null;
-   
-    		try
-    		{
-    			SDO = FYD.DownloadYahooData(columns, symbols);
-    		}catch(Exception ex)
-    		{
-    			ex.printStackTrace();
-    		}
-    		
-    		return SDO;
+    		ShareDetailsObject [] ShareDetails = null;
+
+    		ShareDetails = FYD.DownloadCurrentYahooData(columns, symbols);
+
+    		return ShareDetails;
     	}
     	
     	protected void  onProgressUpdate()
