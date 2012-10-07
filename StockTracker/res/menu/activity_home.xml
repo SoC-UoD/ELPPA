@@ -1,6 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_settings"
-        android:title="@string/menu_settings"
+    <item android:id="@+id/menu_run1"
+        android:title="@string/menu_run1"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:showAsAction="never" android:visible="true" android:enabled="true">
+    </item>
+     <item android:id="@+id/menu_run2"
+        android:title="@string/menu_run2"
+        android:orderInCategory="100"
+        android:showAsAction="never" android:visible="true" android:enabled="true">
+    </item>
+     <item android:id="@+id/menu_run3"
+        android:title="@string/menu_run3"
+        android:orderInCategory="100"
+        android:showAsAction="never" android:visible="true" android:enabled="true">
+    </item>
 </menu>
