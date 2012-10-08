@@ -3,6 +3,8 @@
  */
 package com.elppa.webserviceaccess;
 
+import java.io.Serializable;
+
 /**
  * @author jamesoliver
  *
@@ -11,7 +13,7 @@ package com.elppa.webserviceaccess;
  * TODO Add validation to set and get
  *
  */
-public class ShareDetailsObject
+public class ShareDetailsObject implements Serializable
 {
 	private String DateTime; // May or may not be good as a string - final date for presentation.
 	private String Symbol;

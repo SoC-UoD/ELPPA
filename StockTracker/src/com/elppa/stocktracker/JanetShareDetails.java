@@ -18,7 +18,13 @@ public class JanetShareDetails
 	private static String ColAskingprice = "AskPrice";
 	private static int numBPShares = 127; //Check this value
 	private static int numMSShares = 100; //Check this value
+	private static float BPShares = 180000000f;
 
+	public static float getBPSharesOutstanding()
+	{
+		return BPShares;
+	}
+	
 	public static String[] getAllShareSymbols()
 	{
 		return AllShareSymbols;

@@ -1,4 +1,11 @@
+//textviews ids for output
+//txt_total : will take the total value with a proceeding £ symbol
+//txt_total_date : will take the reference date used for total value calculation
+//txt_change: will take the change between last week and the week before that
+//btn_back : button that returns to the home activity
+//btn_refresh
 package com.elppa.stocktracker;
+
 
 
 import android.os.AsyncTask;
@@ -6,24 +13,26 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.app.NavUtils;
-import android.content.Intent;
+
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elppa.webserviceaccess.ShareDetailsObject;
 import com.elppa.webserviceaccess.FetchYahooData;
 
-public class Home extends Activity 
+public class total_value extends Activity 
 {
 	private ShareDetailsObject [] ShareDetails = null;
-	private Button testButton = null;
+	private Button testButton,backButton = null;
 	private AccessWebserviceTask AWT = null;
-	
+	private TextView Change = null;
 	/**
 	 * Initialise GUI Elements
 	 * 
@@ -32,30 +41,38 @@ public class Home extends Activity
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.total_value);
         
-        /*testButton.setOnClickListener(new View.OnClickListener() 
+        Bundle ShareData = getIntent().getExtras();
+        
+        Object[] ShareDetails = (Object[])  ShareData.getSerializable("ShareDetails");
+        
+        Toast.makeText(this, ((ShareDetailsObject) ShareDetails[0]).getSymbol(), Toast.LENGTH_SHORT).show();
+
+        Change = (TextView) findViewById(R.id.txt_change);
+        
+        ((TextView)Change).setTextColor(0xFF7CFC00);
+        Change.setText("Array Size: " + ShareDetails.length);
+          
+        backButton = (Button) this.findViewById(R.id.btn_back);
+        
+        backButton.setOnClickListener(new View.OnClickListener() 
         {
-			
-			//@Override
+			@Override
 			public void onClick(View v) 
-			{
-				Intent newIntent = new Intent(Home.this, total_value.class);
-				
-				newIntent.putExtra("ShareDetails", ShareDetails);
-				
-				startActivity(newIntent);			
+			{	
+				finish();
 			}
-	});*/
+        });
         
 		//Check to see if we already have data, if we do, let's quit.
 		//Implement a timer so that refreshes take place on a 5 minute interval
 		if(ShareDetails != null)
 			return;
 		
-		AWT = new AccessWebserviceTask(Home.this);
+		//AWT = new AccessWebserviceTask(total_value.this);
 		
-		Log.i(Home.class.toString(), "Executing Web Service Task");
+		Log.i(total_value.class.toString(), "Executing Web Service Task");
 		
 		//Create arrays with the details required.
 		// TODO Create a static object with required share data.
@@ -65,7 +82,7 @@ public class Home extends Activity
 	
 		//Create AccessWebserviceTask thread - this method calls doInBackground and passes string arrays with required details.
 		//
-		AWT.execute(columns, symbols);
+		//AWT.execute(columns, symbols);
     }
     
     /**
@@ -88,6 +105,7 @@ public class Home extends Activity
     
     private boolean checkShareVolumeForRun()
     {
+    	testButton.setText(ShareDetails[0].getSymbol());
     	
     	return false;
     }
@@ -168,7 +186,7 @@ public class Home extends Activity
     		if(result != null)
     		{
     			ShareDetails = result;
-    			Home.this.checkShareVolumeForRun();
+    		//	total_value.this.checkShareVolumeForRun();
     			pd.dismiss();
     		}else
     		{

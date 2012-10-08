@@ -21,6 +21,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         <activity android:name=".portfolio" android:label="portfolio">
+            <intent-filter >
+                <action android:name="com.elppa.portfolio" />
+                <category android:name="android.intent.category.DEFAULT" />
+                    
+            </intent-filter>
+        </activity> 
+        <activity android:name=".total_value" android:label="total value">
+            <intent-filter >
+                <action android:name="com.elppa.total_value" />
+                <category android:name="android.intent.category.DEFAULT" />
+                    
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
