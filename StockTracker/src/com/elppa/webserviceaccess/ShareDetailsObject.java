@@ -43,14 +43,12 @@ public class ShareDetailsObject implements Serializable
 	 * 
 	 */
 	
-	public ShareDetailsObject(String newCompanyName, String newSymbol, String newDateTime, long shareValue, long sharesOutstanding)
+	public ShareDetailsObject(String newCompanyName, String newSymbol,  float shareValue, float volumeTraded)
 	{
-		DateTime = newDateTime;
 		Symbol = newSymbol;
 		CompanyName = newCompanyName;
-		
 		ShareValue = shareValue;
-		SharesOutstanding = sharesOutstanding;
+		ShareVolumeTraded = volumeTraded;
 	}
 	
 	public String getDateTime()

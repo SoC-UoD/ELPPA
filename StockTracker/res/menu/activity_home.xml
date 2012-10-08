@@ -14,4 +14,9 @@
         android:orderInCategory="100"
         android:showAsAction="never" android:visible="true" android:enabled="true">
     </item>
+    <item android:id="@+id/menu_clear"
+        android:title="@string/menu_clear"
+        android:orderInCategory="100"
+        android:showAsAction="never" android:visible="true" android:enabled="true">
+    </item>
 </menu>

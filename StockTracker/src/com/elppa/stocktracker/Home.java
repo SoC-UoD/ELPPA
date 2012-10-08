@@ -3,26 +3,35 @@ package com.elppa.stocktracker;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.support.v4.app.NavUtils;
 import android.content.Intent;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elppa.webserviceaccess.ShareDetailsObject;
 import com.elppa.webserviceaccess.FetchYahooData;
 
-public class Home extends Activity 
+@TargetApi(12)
+public class Home extends Activity
 {
 	private ShareDetailsObject [] ShareDetails = null;
 	private Button testButton = null;
 	private AccessWebserviceTask AWT = null;
+	private TableLayout TL = null;
 	
 	/**
 	 * Initialise GUI Elements
@@ -33,39 +42,10 @@ public class Home extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        
-        /*testButton.setOnClickListener(new View.OnClickListener() 
-        {
-			
-			//@Override
-			public void onClick(View v) 
-			{
-				Intent newIntent = new Intent(Home.this, total_value.class);
-				
-				newIntent.putExtra("ShareDetails", ShareDetails);
-				
-				startActivity(newIntent);			
-			}
-	});*/
-        
+    
 		//Check to see if we already have data, if we do, let's quit.
 		//Implement a timer so that refreshes take place on a 5 minute interval
-		if(ShareDetails != null)
-			return;
-		
-		AWT = new AccessWebserviceTask(Home.this);
-		
-		Log.i(Home.class.toString(), "Executing Web Service Task");
-		
-		//Create arrays with the details required.
-		// TODO Create a static object with required share data.
-					
-		String [] columns = {"*"};
-		String [] symbols = {"bp.l"};
-	
-		//Create AccessWebserviceTask thread - this method calls doInBackground and passes string arrays with required details.
-		//
-		AWT.execute(columns, symbols);
+		TL = (TableLayout) findViewById(R.id.AlertTable);
     }
     
     /**
@@ -76,8 +56,17 @@ public class Home extends Activity
     protected void onStart() 
     {
         super.onStart();
-       
-        
+		//Create AccessWebserviceTask thread - this method calls doInBackground and passes string arrays with required details.
+		//
+		if(ShareDetails == null)
+		{
+			Log.i(Home.class.toString(), "Executing Web Service Task");
+			String [] columns = JanetShareDetails.getAllColumns();
+			String [] symbols = JanetShareDetails.getAllShareSymbols();
+			
+			AWT = new AccessWebserviceTask(Home.this);
+			AWT.execute(columns, symbols);
+		}     
     }
     
     @Override
@@ -86,12 +75,6 @@ public class Home extends Activity
     	super.onPause();
     }
     
-    private boolean checkShareVolumeForRun()
-    {
-    	
-    	return false;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) 
     {
@@ -99,6 +82,115 @@ public class Home extends Activity
         return true;
     }
     
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+    	switch(item.getItemId())
+    	{
+    		case R.id.menu_run1:
+	    		// Test Object defined to create a run on shares.
+	    		ShareDetails = new ShareDetailsObject[1];
+	    		ShareDetails[0] = new ShareDetailsObject("BP Test", "BP.L", 120, JanetShareDetails.getSharesOutstandingByKey("BP.L") * 0.3f);
+	    		checkShareVolumeForRun();
+	    	return true;
+    		case R.id.menu_run2:
+    			ShareDetails = new ShareDetailsObject[2];
+        		ShareDetails[0] = new ShareDetailsObject("BP Test", "BP.L", 120, JanetShareDetails.getSharesOutstandingByKey("BP.L") * 0.3f);
+        		ShareDetails[1] = new ShareDetailsObject("Experian Test", "EXPN.L", 120, JanetShareDetails.getSharesOutstandingByKey("EXPN.L") * 0.4f);
+        		checkShareVolumeForRun();
+    		return true;	
+    		
+    		case R.id.menu_run3:
+    			ShareDetails = new ShareDetailsObject[3];
+        		ShareDetails[0] = new ShareDetailsObject("BP Test", "BP.L", 120, JanetShareDetails.getSharesOutstandingByKey("BP.L") * 0.3f);
+        		ShareDetails[1] = new ShareDetailsObject("Experian Test", "EXPN.L", 120, JanetShareDetails.getSharesOutstandingByKey("EXPN.L") * 0.4f);
+        		ShareDetails[2] = new ShareDetailsObject("M&S Test", "MKS-GBX.L", 120, JanetShareDetails.getSharesOutstandingByKey("MKS-GBX.L") * 0.4f);
+        		checkShareVolumeForRun();
+        	return true;
+    		case R.id.menu_clear:
+    			ShareDetails = new ShareDetailsObject[1];
+    			ShareDetails[0] = new ShareDetailsObject("M&S Test", "MKS-GBX.L", 120, JanetShareDetails.getSharesOutstandingByKey("MKS-GBX.L") * 0.05f);
+    			checkShareVolumeForRun();
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
+    /**
+     * This method looks at the currently traded share volume and ensures it is not more than 10% of the Shares Outstanding
+     * 
+     * @return
+     */
+    
+    private void checkShareVolumeForRun()
+    {
+    	if(ShareDetails == null)
+    	{
+    		Toast.makeText(Home.this, "Cannot Download Data: Please refresh later", Toast.LENGTH_LONG).show();
+    		return;
+    	}
+    	
+    	//Clear any views attached to the table view.
+    	//TL.removeAllViews();
+    	
+    	System.out.print(TL.getChildCount());
+    	
+    	if(TL.getChildCount() > 1)
+    		TL.removeViewsInLayout(1, TL.getChildCount() - 1);
+    	
+    	TableRow row = new TableRow(this);
+    	TextView tv = null;
+    	int alertCount = 0;
+    	
+    	for(int i = 0; i < ShareDetails.length; i++)
+    	{
+    		String Symbol = ShareDetails[i].getSymbol();
+    		float outStandingShares = JanetShareDetails.getSharesOutstandingByKey(Symbol);
+    		float tradedVolume = ShareDetails[i].getVolumeTraded();
+    		
+    		if(tradedVolume> (outStandingShares * 0.10f))
+    		{
+    			alertCount++;
+    			float runAmount = tradedVolume/outStandingShares * 100f;
+    			tv = new TextView(this);
+    			row = new TableRow(this);
+    			
+    			tv.setTag("There is a run on " + Symbol +". So far today " + String.format("%.0f%n", runAmount) + "% of shares have been traded");
+    			tv.setText("ALERT: There is a run on " + Symbol);
+    			tv.setTextColor(0xFFFF0000);
+    			tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20.0f);
+    			
+    			//row.setClickable(true);
+    			tv.setOnClickListener(new View.OnClickListener() {						
+					@Override
+					public void onClick(View v) 
+					{
+						Log.i(Home.class.toString(), v.toString());
+						Toast toast = Toast.makeText(Home.this.getApplicationContext(), (String) v.getTag(),Toast.LENGTH_SHORT);
+						toast.setGravity(android.view.Gravity.CENTER, 0, 0);
+						toast.show();
+					}
+				});
+    			row.setBackgroundColor(0xFFCC0000);
+    			row.addView(tv);
+    			TL.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+    		}
+    	}
+    	
+    	if(alertCount == 0)
+		{
+			tv = new TextView(this);
+			row = new TableRow(this);
+	    	tv.setText("You have no alerts");
+	    	tv.setTextColor(0xFF00FF00);  	
+	    	tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20.0f);
+	    	row.addView(tv);
+	    	row.setBackgroundColor(0xFF00AA00);
+	    	TL.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		}
+    }   
+   
    /**
     * 
     * @author James Oliver
@@ -164,7 +256,6 @@ public class Home extends Activity
     	
     	protected void onPostExecute(ShareDetailsObject [] result)
     	{
-
     		if(result != null)
     		{
     			ShareDetails = result;

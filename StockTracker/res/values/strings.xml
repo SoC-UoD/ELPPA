@@ -7,5 +7,6 @@
     <string name="menu_run2">Simulate 2 Share Runs</string>
     <string name="menu_run3">Simulate 3 Share Runs</string>
     <string name="home_welcome_message">Stock Tracker: Home</string>
+    <string name="menu_clear">Clear Alert/s</string>
 
 </resources>

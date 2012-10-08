@@ -11,15 +11,57 @@ package com.elppa.stocktracker;
 
 public class JanetShareDetails 
 {
-	private static String [] AllShareSymbols = {"bl.l"};
+	private static String [] AllShareSymbols = {"BP.L","HSBA-GBX.L", "EXPN.L", "MKS-GBX.L", "SN.L"};
 	private static String [] HistoricalColumns = {"Volume", "Adj_Close"};
-	private static String AllColumns = "*";
+	private static String [] AllColumns = {"*"};
 	private static String ColVolume = "volume";
 	private static String ColAskingprice = "AskPrice";
+	
+	private static int [] SharesArray = {127, 258, 343,485, 1219};
+	private static float [] OutstandingSharesArray = {180000000f, 161100000f,  989000000f, 1590000000f, 894000000f};
+	
 	private static int numBPShares = 127; //Check this value
-	private static int numMSShares = 100; //Check this value
+	private static int numMSShares = 485; //Check this value
+	private static int numHSBCShares = 343;
+	private static int numEXPShares = 258;
+	private static int numSmthNphShares = 1219;
+	
 	private static float BPShares = 180000000f;
+	private static float HSBCShares = 161100000f;
+	private static float EXPShares = 989000000f;
+	private static float MSShares = 1590000000f;
+	private static float SmthNph = 894000000f;
 
+
+	public static int getSharesByKey(String key)
+	{
+		int numberOfShares = 0;
+		
+		for (int i = 0; i < AllShareSymbols.length; i++)
+		{
+			if (AllShareSymbols[i].equals(key))
+			{
+				numberOfShares = SharesArray[i];
+			}	
+		}
+		return numberOfShares;
+	}
+	
+	public static float getSharesOutstandingByKey(String key)
+	{
+		float outstandingShares = 0;
+		
+		for (int i = 0; i < AllShareSymbols.length; i++)
+		{
+			if(AllShareSymbols[i].equals(key))
+			{
+				outstandingShares = OutstandingSharesArray[i];
+			}
+		}
+		
+		return outstandingShares;
+	}
+	
 	public static float getBPSharesOutstanding()
 	{
 		return BPShares;
@@ -35,7 +77,7 @@ public class JanetShareDetails
 		return HistoricalColumns;
 	}
 	
-	public static String getAllColumns()
+	public static String[] getAllColumns()
 	{
 		return AllColumns;
 	}
@@ -48,6 +90,61 @@ public class JanetShareDetails
 	public static String getColAskingPrice()
 	{
 		return ColAskingprice;
+	}
+
+	public static float getSmthNph() 
+	{
+		return SmthNph;
+	}
+
+	public static float getMSShares() 
+	{
+		return MSShares;
+	}
+
+	public static void setMSShares(float mSShares) 
+	{
+		MSShares = mSShares;
+	}
+
+	public static float getEXPShares() 
+	{
+		return EXPShares;
+	}
+
+	public static void setEXPShares(float eXPShares) 
+	{
+		EXPShares = eXPShares;
+	}
+
+	public static float getHSBCShares() 
+	{
+		return HSBCShares;
+	}
+
+	public static int getNumSmthNphShares() 
+	{
+		return numSmthNphShares;
+	}
+
+	public static int getNumEXPShares() 
+	{
+		return numEXPShares;
+	}
+
+	public static int getNumHSBCShares() 
+	{
+		return numHSBCShares;
+	}
+
+	public static int getNumMSShares() 
+	{
+		return numMSShares;
+	}
+
+	public static int getNumBPShares() 
+	{
+		return numBPShares;
 	}
 
 }
