@@ -5,9 +5,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -156,23 +158,35 @@ public class Home extends Activity
     			tv = new TextView(this);
     			row = new TableRow(this);
     			
-    			tv.setTag("There is a run on " + Symbol +". So far today " + String.format("%.0f%n", runAmount) + "% of shares have been traded");
+    			tv.setHeight(50);
+    			tv.setTag("There is a run on " + Symbol +". " + String.format("%.0f%n%% of shares have been traded so far today.", runAmount));
     			tv.setText("ALERT: There is a run on " + Symbol);
-    			tv.setTextColor(0xFFFF0000);
-    			tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20.0f);
+    			tv.setTextColor(0xFFFFAA00);
+    			tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 23.0f);
     			
     			//row.setClickable(true);
     			tv.setOnClickListener(new View.OnClickListener() {						
 					@Override
 					public void onClick(View v) 
 					{
+						AlertDialog.Builder AD = new AlertDialog.Builder(Home.this);
+						AD.setTitle("Run on Your Shares");
+						AD.setMessage((String) v.getTag());
+						AD.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+								
+							}
+						});
+						
+						AD.create();
+						AD.show();
 						Log.i(Home.class.toString(), v.toString());
-						Toast toast = Toast.makeText(Home.this.getApplicationContext(), (String) v.getTag(),Toast.LENGTH_SHORT);
-						toast.setGravity(android.view.Gravity.CENTER, 0, 0);
-						toast.show();
 					}
 				});
-    			row.setBackgroundColor(0xFFCC0000);
+    			row.setBackgroundColor(0x99990000);
     			row.addView(tv);
     			TL.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     		}
@@ -182,6 +196,7 @@ public class Home extends Activity
 		{
 			tv = new TextView(this);
 			row = new TableRow(this);
+			tv.setHeight(50);
 	    	tv.setText("You have no alerts");
 	    	tv.setTextColor(0xFF00FF00);  	
 	    	tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20.0f);
