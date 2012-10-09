@@ -49,7 +49,7 @@ public class total_value extends Activity
         
         Toast.makeText(this, ((ShareDetailsObject) ShareDetails[0]).getSymbol(), Toast.LENGTH_SHORT).show();
 
-        Change = (TextView) findViewById(R.id.txt_change);
+       //Change = (TextView) findViewById(R.id.txt_change);
         
         ((TextView)Change).setTextColor(0xFF7CFC00);
         Change.setText("Array Size: " + ShareDetails.length);

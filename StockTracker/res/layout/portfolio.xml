@@ -114,7 +114,7 @@
                             android:id="@+id/TextView06"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Total in GBP:"
+                            android:text="Value:"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
                     </TableRow>
 
@@ -255,7 +255,7 @@
                             android:id="@+id/textView1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Total in GBP:"
+                            android:text="Value:"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
                     </TableRow>
 
@@ -396,7 +396,7 @@
                             android:id="@+id/TextView13"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Total in GBP:"
+                            android:text="Value:"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
                     </TableRow>
 
@@ -537,7 +537,7 @@
                             android:id="@+id/TextView20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Total in GBP:"
+                            android:text="Value:"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
                     </TableRow>
 
@@ -575,6 +575,148 @@
                 android:layout_height="wrap_content" >
             </TableRow>
         </TableLayout>
+
+        <TableLayout
+            android:id="@+id/TableLayout04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" >
+
+            <TableRow
+                android:id="@+id/TableRow40"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/symbol5_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BP.L"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/TableRow37"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp" >
+
+                    <TableRow
+                        android:id="@+id/TableRow44"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:id="@+id/TextView03"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="price:"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                        <TextView
+                            android:id="@+id/symbol5_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="455.43"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/TableRow45"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:id="@+id/TextView09"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="quantity:"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                        <TextView
+                            android:id="@+id/symbol5_qnt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="115"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/TableRow43"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/TableRow42"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/TableRow38"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                    </TableRow>
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp" >
+
+                    <TableRow
+                        android:id="@+id/TableRow41"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:id="@+id/TextView08"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Value:"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/TableRow48"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/TableRow47"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/TableRow46"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:id="@+id/symbol5_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:text="£ 52385.95"
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
+                    </TableRow>
+                </TableLayout>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/TableRow39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TableRow>
+        </TableLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
