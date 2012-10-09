@@ -58,7 +58,7 @@ public class total_value extends Activity
         
         backButton.setOnClickListener(new View.OnClickListener() 
         {
-			@Override
+		//	@Override
 			public void onClick(View v) 
 			{	
 				finish();

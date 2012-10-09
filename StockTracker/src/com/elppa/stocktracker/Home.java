@@ -166,7 +166,7 @@ public class Home extends Activity
     			
     			//row.setClickable(true);
     			tv.setOnClickListener(new View.OnClickListener() {						
-					@Override
+				//	@Override
 					public void onClick(View v) 
 					{
 						AlertDialog.Builder AD = new AlertDialog.Builder(Home.this);
@@ -174,7 +174,7 @@ public class Home extends Activity
 						AD.setMessage((String) v.getTag());
 						AD.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
 							
-							@Override
+						//	@Override
 							public void onClick(DialogInterface dialog, int which) {
 								dialog.dismiss();
 								
