@@ -62,6 +62,7 @@ public class Home extends Activity
 		
 		PortfolioDetailsButton.setOnClickListener(new View.OnClickListener() 
 		{			
+			@Override
 			public void onClick(View v) 
 			{
 				Intent I = new Intent(v.getContext(), Portfolio.class);
@@ -72,6 +73,7 @@ public class Home extends Activity
 		
 		TotalValueButton.setOnClickListener(new View.OnClickListener() 
 		{			
+			@Override
 			public void onClick(View v) 
 			{	
 				Intent I = new Intent(v.getContext(), TotalValue.class);
@@ -201,6 +203,7 @@ public class Home extends Activity
     			
     			tv.setOnClickListener(new View.OnClickListener() 
     			{						
+					@Override
 					public void onClick(View v) 
 					{
 						AlertDialog.Builder AD = new AlertDialog.Builder(Home.this);
@@ -209,6 +212,7 @@ public class Home extends Activity
 						AD.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() 
 						{
 							
+							@Override
 							public void onClick(DialogInterface dialog, int which) 
 							{
 								dialog.dismiss();						
@@ -320,6 +324,7 @@ public class Home extends Activity
     			InformationDialogue.setMessage("No network connection - cannot download data");
     			InformationDialogue.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() 
     			{
+					@Override
 					public void onClick(DialogInterface dialog, int which) 
 					{
 						dialog.dismiss();

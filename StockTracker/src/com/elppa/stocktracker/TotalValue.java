@@ -75,6 +75,7 @@ public class TotalValue extends Activity
 		// Go back to the home screen
 		BackButton.setOnClickListener(new View.OnClickListener() {
 			
+			@Override
 			public void onClick(View v) 
 			{
 				TotalValue.this.finish();	
@@ -275,6 +276,7 @@ public class TotalValue extends Activity
 				ad.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() 
 				{
 					
+					@Override
 					public void onClick(DialogInterface dialog, int which) 
 					{
 						dialog.dismiss();						

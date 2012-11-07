@@ -2,11 +2,11 @@
     package="com.elppa.stocktracker"
     android:versionCode="1"
     android:versionName="1.0" >
-
     <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="15" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="16" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -21,18 +21,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity android:name=".portfolio" android:label="portfolio">
+         <activity android:name=".Portfolio" android:label="portfolio">
             <intent-filter >
                 <action android:name="com.elppa.portfolio" />
                 <category android:name="android.intent.category.DEFAULT" />
                     
             </intent-filter>
         </activity> 
-        <activity android:name=".total_value" android:label="total value">
+        <activity android:name=".TotalValue" android:label="total value">
             <intent-filter >
                 <action android:name="com.elppa.total_value" />
-                <category android:name="android.intent.category.DEFAULT" />
-                    
+                <category android:name="android.intent.category.DEFAULT" />      
             </intent-filter>
         </activity>
     </application>
