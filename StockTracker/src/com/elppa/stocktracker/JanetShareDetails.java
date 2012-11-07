@@ -1,5 +1,7 @@
 package com.elppa.stocktracker;
 
+import com.elppa.webserviceaccess.ShareDetailsObject;
+
 /**
  * 
  * @author JWO
@@ -7,18 +9,17 @@ package com.elppa.stocktracker;
  *This class holds the permanent values for Coffee Janet's share holdings.
  *
  */
-
-
 public class JanetShareDetails 
 {
 	private static String [] AllShareSymbols = {"BP.L","HSBA-GBX.L", "EXPN.L", "MKS-GBX.L", "SN.L"};
-	private static String [] HistoricalColumns = {"Volume", "Adj_Close"};
+	private static String [] HistoricalColumns = {"Adj_Close"};
 	private static String [] AllColumns = {"*"};
+	private static String [] CurrentColumns = {"LastTradePriceOnly", "Symbol", "Name", "PreviousClose", "Volume"};
 	private static String ColVolume = "volume";
 	private static String ColAskingprice = "AskPrice";
 	
-	private static int [] SharesArray = {127, 258, 343,485, 1219};
-	private static float [] OutstandingSharesArray = {180000000f, 161100000f,  989000000f, 1590000000f, 894000000f};
+	private static int [] SharesArray = {192, 258, 343,485, 1219};
+	private static float [] OutstandingSharesArray = {19030000000f, 161100000f,  989000000f, 1590000000f, 894000000f};
 	
 	private static int numBPShares = 127; //Check this value
 	private static int numMSShares = 485; //Check this value
@@ -26,12 +27,25 @@ public class JanetShareDetails
 	private static int numEXPShares = 258;
 	private static int numSmthNphShares = 1219;
 	
-	private static float BPShares = 180000000f;
+	private static float BPShares = 1903000000f;
 	private static float HSBCShares = 161100000f;
 	private static float EXPShares = 989000000f;
 	private static float MSShares = 1590000000f;
 	private static float SmthNph = 894000000f;
+	
+	
+	public static ShareDetailsObject [] getErrorData()
+	{
+		ShareDetailsObject [] SDO = new ShareDetailsObject[6];
+		
+		
+		return SDO;
+	}
 
+	public static String[] getCurrentShareDetails()
+	{
+		return CurrentColumns;
+	}
 
 	public static int getSharesByKey(String key)
 	{

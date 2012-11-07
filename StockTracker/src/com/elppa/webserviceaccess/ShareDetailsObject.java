@@ -15,28 +15,31 @@ import java.io.Serializable;
  */
 public class ShareDetailsObject implements Serializable
 {
-	private String DateTime; // May or may not be good as a string - final date for presentation.
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String Symbol;
 	private String CompanyName;
 	private float ShareValue;
-	private float TotalValue;
+	private float HistoricalCloseValue;
+	private float ClosingValue;
 	private float SharesOutstanding; // Large integer value
 	private float ShareVolumeTraded;
+	private float ShareQuantity;
+	private String ErrorMessage;
 	
 	/**
 	 * Default constructor
 	 * 
 	 */
-	
 	public ShareDetailsObject()
 	{
-		DateTime = new String("1st Jan 2012"); // See above, may change from String
 		Symbol = new String("XXX");
 		CompanyName = new String("CHOAM");
 		ShareValue = 0.0f;
 		SharesOutstanding = 0.0f;
 	}
-	
 	
 	/**
 	 * Fully qualified constructor
@@ -51,9 +54,51 @@ public class ShareDetailsObject implements Serializable
 		ShareVolumeTraded = volumeTraded;
 	}
 	
-	public String getDateTime()
+	public void setHistoricalCloseValue(float newHistoricalClosingValue)
 	{
-		return DateTime;
+		HistoricalCloseValue = newHistoricalClosingValue;
+	}
+	
+	public float getHistoricalCloseValue()
+	{
+		return HistoricalCloseValue;
+	}
+	
+	public void setClosingValue(float newClosingValue)
+	{
+		ClosingValue = newClosingValue;
+		
+	}
+	
+	public void setShareQuantity(float newQuantity)
+	{
+		ShareQuantity = newQuantity;
+	}
+	
+	public float getShareQuantity()
+	{
+		return ShareQuantity;
+	}
+	
+	public float getCalculatedValue()
+	{
+		if(ShareQuantity == 0 || ShareValue == 0)
+			return 0.0f;
+		
+		return ShareQuantity * (ShareValue/ 100);		
+	}
+	
+	public float getHistoricalCalculatedValue()
+	{
+		if(HistoricalCloseValue == 0 || ShareQuantity == 0)
+			return 0.0f;
+		
+		return (HistoricalCloseValue/100) * ShareQuantity;
+	}
+	
+	public float getClosingValue()
+	{
+		return ClosingValue;
 	}
 	
 	public String getSymbol()
@@ -86,36 +131,29 @@ public class ShareDetailsObject implements Serializable
 		return ShareVolumeTraded;
 	}
 	
-	public void updateShareValue(float numberOfShares)
-	{
-		if(numberOfShares > 0)
-			TotalValue = ShareValue * numberOfShares;
-	}
-	
 	public void setVolumeTraded(float newVolumeTraded)
 	{
 		ShareVolumeTraded = newVolumeTraded;
 	}
 	
-	public void setDateTime(String newDateTime)
-	{
-		DateTime = newDateTime;
-	}
-	
 	public void setSymbol(String newSymbol)
 	{
-		Symbol = newSymbol;
+		if(newSymbol.equals(""))
+			Symbol="No Data";
+		else
+			Symbol = newSymbol;
 	}
 	
 	public void setCompanyName(String newCompanyName)
 	{
-		
-		CompanyName = newCompanyName;
+		if(newCompanyName.equals(""))
+			CompanyName = "No Data";
+		else		
+			CompanyName = newCompanyName;
 	}
 	
 	public void setShareValue(float newShareValue)
 	{
-		
 		ShareValue = newShareValue;
 	}
 	

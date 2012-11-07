@@ -28,6 +28,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.elppa.stocktracker.JanetShareDetails;
+
 import android.util.Log;
 
 /**
@@ -73,12 +75,46 @@ public class FetchYahooData
 	 * @return
 	 */
 	
-	public ShareDetailsObject[] DownloadHistoricalYahooData(String[] Columns, String [] Symbols, String[] Dates)
+	public ShareDetailsObject[] DownloadHistoricalYahooData(String[] Columns, String [] Symbols, String Date)
 	{
 		ShareDetailsObject[] SDO = null;
+		String finalColumns = null;
 		
+		SDO = new ShareDetailsObject[Symbols.length];
 		
+		finalColumns = subColumns(Columns);
+
+		/**
+		 *  Replace CC in the YQL statement with the columns we want
+		 */
 		
+		HSQ = HSQ.replace("CC", finalColumns);
+		HSQ = HSQ.replace("DD",  "\""+Date+"\"");
+		
+		String newHSQ = new String();
+		
+		newHSQ = HSQ;
+		/**
+		 * Replace SS in the YQL statement with the symbols we want
+		 */
+		
+		for(int i = 0; i < Symbols.length; i++)
+		{	
+			newHSQ = newHSQ.replace("SS", "\""+Symbols[i]+"\"");
+			
+			JSONResponse = fetchJSONHTTP(newHSQ);
+			
+			SDO[i] = new ShareDetailsObject();
+			SDO[i] = getHistoricalJSONData(JSONResponse);
+			SDO[i].setSymbol(Symbols[i]);
+			SDO[i].setShareQuantity(JanetShareDetails.getSharesByKey(Symbols[i]));
+			newHSQ = HSQ;
+		}
+		
+		/**
+		 *  Fetch JSON feed from Yahoo API
+		 */
+		Log.i(FetchYahooData.class.toString(), "Fetch JSON from Yahoo Server");		
 		return SDO;
 	}
 	
@@ -139,10 +175,39 @@ public class FetchYahooData
 		return SB.toString();
 	}
 	
+	private ShareDetailsObject getHistoricalJSONData(String JSONObject)
+	{
+		ShareDetailsObject NewShareDetails = new ShareDetailsObject();
+		
+		if(JSONObject == null)
+		{
+			return null;
+		}
+		
+		try
+		{
+			JSONArray allDetails = new JSONArray(JSONObject);
+	    	
+	    	JSONObject outer = allDetails.getJSONObject(0);
+	    	
+	    	JSONObject query = outer.getJSONObject("query");
+	    	
+	    	JSONObject results = query.getJSONObject("results");
+    		Log.i(FetchYahooData.class.toString(), "Fetching single item");
+    		JSONObject quoteDetails = results.getJSONObject("quote");
+    		NewShareDetails.setHistoricalCloseValue(Float.valueOf((String) quoteDetails.get("Adj_Close")));
+		}catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		return NewShareDetails;
+	}
 	
-	private void getJSONData(String JSONObject)
+	private void getCurrentJSONData(String JSONObject)
 	{
 		int numberOfResults = 0;
+		String[] requiredDetail = JanetShareDetails.getCurrentShareDetails();
     	
 		try
 		{
@@ -172,10 +237,36 @@ public class FetchYahooData
 	        	{
 	        		JSONObject currDetails = quote.getJSONObject(i);
 	        		SDO[i] = new ShareDetailsObject();
-	        		SDO[i].setShareValue(Float.valueOf((String) currDetails.get("AskRealtime")));
-	        		SDO[i].setSymbol((String)currDetails.get("Symbol"));
-	        		SDO[i].setDateTime((String) currDetails.get("Name"));
-	        		SDO[i].setVolumeTraded(Float.valueOf((String) currDetails.get("Volume")));
+	        		
+	        		if(currDetails.get("LastTradePriceOnly").toString().equals("null"))
+	        			SDO[i].setShareValue(0.0f);
+	        		else
+	        			SDO[i].setShareValue(Float.valueOf((String) currDetails.get("LastTradePriceOnly")));
+	        		
+	        		if(currDetails.get("Symbol").toString().equals("null"))
+	        			SDO[i].setSymbol("No Data");
+	        		else
+	        			SDO[i].setSymbol((String)currDetails.get("Symbol"));
+	        		
+	        		if(currDetails.get("Name").toString().equals("null"))
+	        			SDO[i].setCompanyName("No Data");
+	        		else
+	        			SDO[i].setCompanyName((String) currDetails.get("Name"));
+	        		
+	        		if(currDetails.getString("PreviousClose").toString().equals("null"))
+	        			SDO[i].setClosingValue(0.0f);
+	        		else
+	        			SDO[i].setClosingValue(Float.valueOf((String) currDetails.getString("PreviousClose")));
+	        		
+	        		if(currDetails.get("Volume").toString().equals("null"))
+	        			SDO[i].setVolumeTraded(0.0f);
+	        		else
+	        			SDO[i].setVolumeTraded(Float.valueOf((String) currDetails.get("Volume")));
+	        		
+	        		if(SDO[i].getSymbol() == null)
+	        			SDO[i].setShareQuantity(0.0f);
+	        		else
+	        			SDO[i].setShareQuantity(JanetShareDetails.getSharesByKey(SDO[i].getSymbol()));
 	        	}
 	    	}else
 	    	{
@@ -183,10 +274,13 @@ public class FetchYahooData
 	    		
 	    		JSONObject quoteDetails = results.getJSONObject("quote");
 	    		SDO[0] = new ShareDetailsObject();
-	    		SDO[0].setShareValue(Float.valueOf((String) quoteDetails.get("AskRealtime")));
+	    		SDO[0].setShareValue(Float.valueOf((String) quoteDetails.get("LastTradePriceOnly")));
 	    		SDO[0].setSymbol((String)quoteDetails.get("symbol"));
-	    		SDO[0].setDateTime((String)quoteDetails.get("Name"));
+	    		SDO[0].setCompanyName((String) quoteDetails.get("Name"));
+	    		SDO[0].setClosingValue(Float.valueOf((String) quoteDetails.getString("PreviousClose")));
 	    		SDO[0].setVolumeTraded(Float.valueOf((String) quoteDetails.getString("Volume")));
+	    		SDO[0].setShareQuantity(JanetShareDetails.getSharesByKey(SDO[0].getSymbol()));
+	    		
 	    	}
 		}catch (Exception ex)
 		{
@@ -230,9 +324,9 @@ public class FetchYahooData
 		 */
 		Log.i(FetchYahooData.class.toString(), "Fetch JSON from Yahoo Server");
 		
-		JSONResponse = fetchJSONHTTP();
+		JSONResponse = fetchJSONHTTP(YQL);
 	
-		getJSONData(JSONResponse);
+		getCurrentJSONData(JSONResponse);
 		
 		return SDO;	
 	}
@@ -243,22 +337,22 @@ public class FetchYahooData
 	 * @return String JSON object or null if no data is returned.
 	 */
 	
-	private String fetchJSONHTTP()
+	private String fetchJSONHTTP(String YQLQuery)
 	{
 		HttpClient httpClient = new DefaultHttpClient();
 		StringBuilder builder = new StringBuilder();
-    	
+    	String newURL = URL;
     	try
     	{
-    		YQL = URLEncoder.encode(YQL,"UTF-8");
+    		YQLQuery = URLEncoder.encode(YQLQuery,"UTF-8");
     	}catch(UnsupportedEncodingException ex)
     	{
     		ex.printStackTrace();
     	}
     	
-    	URL = URL.replace("%1", YQL);
+    	newURL = newURL.replace("%1", YQLQuery);
     	
-    	HttpGet httpget = new HttpGet(URL);
+    	HttpGet httpget = new HttpGet(newURL);
     	
     	try
     	{
