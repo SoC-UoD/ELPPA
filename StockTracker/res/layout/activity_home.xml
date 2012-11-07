@@ -11,39 +11,54 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
         android:text="@string/home_welcome_message"
-        android:textSize="30dip"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="30dip" />
 
-   <TableLayout
-       android:id="@+id/AlertTable"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_alignParentBottom="true"
-       android:layout_alignParentLeft="false"
-       android:layout_alignParentRight="false"
-       android:layout_alignParentTop="false"
-       android:layout_alignWithParentIfMissing="false"
-       android:layout_centerHorizontal="true"
-       android:layout_centerInParent="false"
-       android:layout_centerVertical="false"
-       android:layout_marginLeft="0dp" >
+    <TableLayout
+        android:id="@+id/AlertTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="false"
+        android:layout_marginLeft="0dp" >
 
-       <TableRow
-           android:id="@+id/headerRow"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent" 
-           android:background="#DDDDDD">
+        <TableRow
+            android:id="@+id/headerRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#BBBBBB" >
 
-           <TextView
-               android:id="@+id/notificationHeader"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               
-               android:text="Notifications"
-               android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/notificationHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notifications"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+    </TableLayout>
 
-       </TableRow>
+    <ImageView
+        android:id="@+id/stockDetailsImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/HomeWelcomeMessage"
+        android:layout_marginTop="51dp"
+        android:src="@drawable/stock_details" />
 
-   </TableLayout>
+    <ImageView
+        android:id="@+id/portfolioDetailsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/stockDetailsImage"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/stockDetailsImage"
+        android:src="@drawable/portfolio_value" />
 
 </RelativeLayout>
