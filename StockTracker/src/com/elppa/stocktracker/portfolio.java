@@ -40,7 +40,6 @@ public class Portfolio extends ListActivity
 		// Go back to the home screen
 		BackButton.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
 			public void onClick(View v) 
 			{
 				Portfolio.this.finish();	
