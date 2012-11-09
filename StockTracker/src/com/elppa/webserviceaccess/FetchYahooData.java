@@ -67,14 +67,6 @@ public class FetchYahooData
 	}
 
 	
-	/**
-	 * 
-	 * @param Columns
-	 * @param Symbols
-	 * @param Dates
-	 * @return
-	 */
-	
 	public ShareDetailsObject[] DownloadHistoricalYahooData(String[] Columns, String [] Symbols, String Date)
 	{
 		ShareDetailsObject[] SDO = null;
@@ -238,10 +230,10 @@ public class FetchYahooData
 	        		JSONObject currDetails = quote.getJSONObject(i);
 	        		SDO[i] = new ShareDetailsObject();
 	        		
-	        		if(currDetails.get("LastTradePriceOnly").toString().equals("null"))
-	        			SDO[i].setShareValue(0.0f);
+	        		if(currDetails.get("AskRealtime").toString().equals("null"))
+	        			SDO[i].setCurrentShareValue(0.0f);
 	        		else
-	        			SDO[i].setShareValue(Float.valueOf((String) currDetails.get("LastTradePriceOnly")));
+	        			SDO[i].setCurrentShareValue(Float.valueOf((String) currDetails.get("AskRealtime")));
 	        		
 	        		if(currDetails.get("Symbol").toString().equals("null"))
 	        			SDO[i].setSymbol("No Data");
@@ -263,6 +255,11 @@ public class FetchYahooData
 	        		else
 	        			SDO[i].setVolumeTraded(Float.valueOf((String) currDetails.get("Volume")));
 	        		
+	        		if(currDetails.get("Open").toString().equals("null"))
+	        			SDO[i].setOpeningValue(0.0f);
+	        		else
+	        			SDO[i].setOpeningValue(Float.valueOf((String) currDetails.get("Open")));
+	        		
 	        		if(SDO[i].getSymbol() == null)
 	        			SDO[i].setShareQuantity(0.0f);
 	        		else
@@ -274,7 +271,7 @@ public class FetchYahooData
 	    		
 	    		JSONObject quoteDetails = results.getJSONObject("quote");
 	    		SDO[0] = new ShareDetailsObject();
-	    		SDO[0].setShareValue(Float.valueOf((String) quoteDetails.get("LastTradePriceOnly")));
+	    		SDO[0].setCurrentShareValue(Float.valueOf((String) quoteDetails.get("LastTradePriceOnly")));
 	    		SDO[0].setSymbol((String)quoteDetails.get("symbol"));
 	    		SDO[0].setCompanyName((String) quoteDetails.get("Name"));
 	    		SDO[0].setClosingValue(Float.valueOf((String) quoteDetails.getString("PreviousClose")));

@@ -27,30 +27,32 @@ public final class R {
     }
     public static final class id {
         public static final int AlertTable=0x7f080001;
-        public static final int CalcValue=0x7f08000d;
+        public static final int CalcValue=0x7f08000e;
+        public static final int Change=0x7f08000b;
+        public static final int ChangeValue=0x7f08000f;
         public static final int HomeWelcomeMessage=0x7f080000;
         public static final int Price=0x7f08000a;
-        public static final int Quantity=0x7f08000b;
+        public static final int Quantity=0x7f08000c;
         public static final int Symbol=0x7f080008;
-        public static final int Value=0x7f08000c;
+        public static final int Value=0x7f08000d;
         public static final int backrow=0x01010000;
         public static final int errorMessage=0x7f080009;
         public static final int headerRow=0x7f080002;
-        public static final int linearLayout1=0x7f080012;
-        public static final int menu_clear=0x7f080017;
-        public static final int menu_run1=0x7f080014;
-        public static final int menu_run2=0x7f080015;
-        public static final int menu_run3=0x7f080016;
+        public static final int linearLayout1=0x7f080014;
+        public static final int menu_clear=0x7f080019;
+        public static final int menu_run1=0x7f080016;
+        public static final int menu_run2=0x7f080017;
+        public static final int menu_run3=0x7f080018;
         public static final int notificationHeader=0x7f080003;
         public static final int portfolioDetailsButton=0x7f080005;
         public static final int portfolio_back=0x7f080006;
         public static final int portfolio_back_message=0x7f080007;
         public static final int stockDetailsImage=0x7f080004;
-        public static final int symbolsUsed=0x7f080013;
-        public static final int textView1=0x7f08000f;
-        public static final int textView3=0x7f080011;
-        public static final int total=0x7f08000e;
-        public static final int txt_total_date=0x7f080010;
+        public static final int symbolsUsed=0x7f080015;
+        public static final int textView1=0x7f080011;
+        public static final int textView3=0x7f080013;
+        public static final int total=0x7f080010;
+        public static final int txt_total_date=0x7f080012;
     }
     public static final class layout {
         public static final int activity_home=0x7f030000;

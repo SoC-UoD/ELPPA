@@ -10,24 +10,30 @@ import java.io.Serializable;
  *
  * Container object for share information fetched from webservice api.
  * 
- * TODO Add validation to set and get
  *
  */
 public class ShareDetailsObject implements Serializable
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String Symbol;
 	private String CompanyName;
 	private float ShareValue;
 	private float HistoricalCloseValue;
 	private float ClosingValue;
-	private float SharesOutstanding; // Large integer value
+	private float OpeningValue;
+	private float SharesOutstanding;
 	private float ShareVolumeTraded;
 	private float ShareQuantity;
+	
 	private String ErrorMessage;
+	private boolean isErrorMessage;
+	
+	/*
+	 *Error Conditions
+	 * 
+	 */
+	private static final String ErrorMess_1 = "value is 0 - may be error in feed";
+	private static final String ErrorMess_2 = "value is not valid - may be error in feed";
 	
 	/**
 	 * Default constructor
@@ -45,13 +51,56 @@ public class ShareDetailsObject implements Serializable
 	 * Fully qualified constructor
 	 * 
 	 */
-	
 	public ShareDetailsObject(String newCompanyName, String newSymbol,  float shareValue, float volumeTraded)
 	{
 		Symbol = newSymbol;
 		CompanyName = newCompanyName;
 		ShareValue = shareValue;
 		ShareVolumeTraded = volumeTraded;
+	}
+	
+	public void setOpeningValue(float newOpeningValue)
+	{
+		if(newOpeningValue == 0)
+		{
+			setErrorDetails("Opening Value", 1);	
+		}
+		
+		OpeningValue = newOpeningValue;
+	}
+
+	public float getChangeFromOpening()
+	{
+		float change = (ShareValue / OpeningValue) - 1.0f;
+		
+		return change;
+	}
+	
+	/**
+	 * Refactored - JWO + TT 09/11/12
+	 * 
+	 * Extract method so that error setting is more generic.
+	 * 
+	 * @param detail
+	 * @param error
+	 */
+	
+	private void setErrorDetails(String detail, int error) 
+	{
+		isErrorMessage = true;
+		String message = null;
+		
+		switch(error)
+		{
+			case 1:
+				message = ShareDetailsObject.ErrorMess_1;
+				break;
+			case 2:
+				message = ShareDetailsObject.ErrorMess_2;
+				break;
+		}
+		
+		ErrorMessage = detail + message;
 	}
 	
 	public void setHistoricalCloseValue(float newHistoricalClosingValue)
@@ -152,7 +201,12 @@ public class ShareDetailsObject implements Serializable
 			CompanyName = newCompanyName;
 	}
 	
-	public void setShareValue(float newShareValue)
+	/*
+	 * Refactor - Change Method Name for clarity - JO + TT
+	 * 
+	 * 
+	 */
+	public void setCurrentShareValue(float newShareValue)
 	{
 		ShareValue = newShareValue;
 	}

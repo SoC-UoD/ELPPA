@@ -11,10 +11,11 @@ import com.elppa.webserviceaccess.ShareDetailsObject;
  */
 public class JanetShareDetails 
 {
-	private static String [] AllShareSymbols = {"BP.L","HSBA-GBX.L", "EXPN.L", "MKS-GBX.L", "SN.L"};
+	private static String [] AllShareSymbols = {"BP.L","ADM.L", "EXPN.L", "MKS-GBX.L", "SN.L"};
+	//private static String [] AllShareSymbols = {"BP.L","HSBA-GBX.L", "EXPN.L", "MKS-GBX.L", "SN.L"};
 	private static String [] HistoricalColumns = {"Adj_Close"};
 	private static String [] AllColumns = {"*"};
-	private static String [] CurrentColumns = {"LastTradePriceOnly", "Symbol", "Name", "PreviousClose", "Volume"};
+	private static String [] CurrentColumns = {"LastTradePriceOnly", "Symbol", "Name", "PreviousClose", "Volume", "Open"};
 	private static String ColVolume = "volume";
 	private static String ColAskingprice = "AskPrice";
 	

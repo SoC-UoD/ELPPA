@@ -26,10 +26,16 @@ public class Portfolio extends ListActivity
 	
 	public void onCreate(Bundle savedInstanceState)
 	{
+		Object[] incoming = null;
+		Bundle ShareData = getIntent().getExtras();
+		
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.portfolio);
-		
+
+		/*
+		 *  This line of code enables PNG transparency
+		*/
 		getWindow().getAttributes().format = android.graphics.PixelFormat.RGBA_8888;
 		
 		setTitle("Your Portfolio");
@@ -37,7 +43,9 @@ public class Portfolio extends ListActivity
 		BackButton = (ImageView) findViewById(R.id.portfolio_back);
 		
 		
-		// Go back to the home screen
+		/*
+		 *  Go back to the home screen
+		 */
 		BackButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -46,14 +54,11 @@ public class Portfolio extends ListActivity
 				Portfolio.this.finish();	
 			}
 		});
-		
-		Object[] incoming = null;
-		
-		Bundle ShareData = getIntent().getExtras();
-		
-		
-		// If there is no share data available.
-		
+			
+		/*
+		 * Check if share data is available, if not then return from the function.
+		 * 
+		 */
 		incoming = (Object[])  ShareData.getSerializable("ShareDetails");
 		
 		if(incoming == null)	

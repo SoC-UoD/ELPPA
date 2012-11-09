@@ -24,14 +24,15 @@ public class ShareDetailsArrayAdapter extends ArrayAdapter <ShareDetailsObject>
 	    super(context, R.layout.share_item, values);
 	    this.cxt = context;
 	    this.SDO = values;
-	    formatter = NumberFormat.getCurrencyInstance();
-	    formatter.setMaximumFractionDigits(0);
-    	formatter.setCurrency(Currency.getInstance(Locale.UK));
 	}
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{		
+	    formatter = NumberFormat.getCurrencyInstance();
+	    formatter.setMaximumFractionDigits(0);
+    	formatter.setCurrency(Currency.getInstance(Locale.UK));
+		
 	    LayoutInflater inflater = (LayoutInflater) cxt.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View rowView = inflater.inflate(R.layout.share_item, parent, false);
 	    
@@ -40,13 +41,32 @@ public class ShareDetailsArrayAdapter extends ArrayAdapter <ShareDetailsObject>
 	    TextView Quantity = (TextView) rowView.findViewById(R.id.Quantity);
 	    TextView Value = (TextView) rowView.findViewById(R.id.Value);
 	    TextView CalculatedValue = (TextView) rowView.findViewById(R.id.CalcValue);
+	    TextView ChangeValue = (TextView) rowView.findViewById(R.id.ChangeValue);
+	    TextView ChangeLabel = (TextView) rowView.findViewById(R.id.Change);
 	    
 	    Symbol.setText(SDO[position].getCompanyName());
 	    
 	    Price.setText(String.format("%.0f",SDO[position].getShareValue())+"p");
 	    Quantity.setText("Qty: " + String.format("%.0f",SDO[position].getShareQuantity()));   
-	    Value.setText("Value"); 
+	    Value.setText("Value");
+	    ChangeLabel.setText("Chg");
 	    CalculatedValue.setText(formatter.format(SDO[position].getCalculatedValue()));
+	    
+	    formatter = NumberFormat.getPercentInstance();
+	    formatter.setMaximumFractionDigits(2);
+	    
+	    if(SDO[position].getChangeFromOpening() > 0)
+	    {
+	    	// Make Green
+	    	
+	    }else
+	    {
+	    	
+	    	// make red
+	    }
+	    
+	    ChangeValue.setText(formatter.format(SDO[position].getChangeFromOpening()));
+	   
 	    return rowView;
 	  }
 }	
