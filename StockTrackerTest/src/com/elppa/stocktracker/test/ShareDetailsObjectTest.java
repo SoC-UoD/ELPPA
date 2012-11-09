@@ -14,16 +14,12 @@ public class ShareDetailsObjectTest extends AndroidTestCase
 	private final float HistoricalCalculatedValue = 120.0f;
 	private final float HistoricalClosingValue = 12.0f;
 
-	
-	
 	public void setUp(){
 		testSDO = new ShareDetailsObject();
 		testSDO.setOpeningValue(OpeningValue);
 		testSDO.setCurrentShareValue(CurrentShareValue);
 		testSDO.setShareQuantity(ShareQuantity);
 		testSDO.setHistoricalCloseValue(HistoricalClosingValue);
-		
-		
 	}
 	
 	
@@ -40,5 +36,21 @@ public class ShareDetailsObjectTest extends AndroidTestCase
 	public void testHistoricalCalculatedValue()
 	{
 		assertEquals(HistoricalCalculatedValue, testSDO.getHistoricalCalculatedValue());
+	}
+	
+	public void testIsPlummeting()
+	{
+		testSDO.setCurrentShareValue(5.0f);
+		
+		assertTrue(testSDO.getIsPlummeting());
+	}
+	
+	
+	public void testIsRocketing()
+	{
+		testSDO.setCurrentShareValue(25.0f);
+		
+		assertTrue(testSDO.getIsRocketing());
+		
 	}
 }
