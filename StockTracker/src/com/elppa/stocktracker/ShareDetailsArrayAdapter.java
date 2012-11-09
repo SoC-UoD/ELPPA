@@ -7,6 +7,7 @@ import java.util.Locale;
 import com.elppa.webserviceaccess.ShareDetailsObject;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,12 +58,11 @@ public class ShareDetailsArrayAdapter extends ArrayAdapter <ShareDetailsObject>
 	    
 	    if(SDO[position].getChangeFromOpening() > 0)
 	    {
-	    	// Make Green
+	    	ChangeValue.setTextColor(Color.parseColor("#5FDB54"));
 	    	
 	    }else
-	    {
-	    	
-	    	// make red
+	    { 	
+	    	ChangeValue.setTextColor(Color.parseColor("#AA211C"));
 	    }
 	    
 	    ChangeValue.setText(formatter.format(SDO[position].getChangeFromOpening()));

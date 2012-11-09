@@ -9,7 +9,10 @@ package com.elppa.stocktracker;
 import com.elppa.webserviceaccess.ShareDetailsObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -74,6 +77,27 @@ public class Portfolio extends ListActivity
 		ShareDetailsArrayAdapter SharesList = new ShareDetailsArrayAdapter(this.getBaseContext(), ShareDetails);
 		
 		setListAdapter(SharesList);	
+		
+		//checkForFluctuation();
 	}
+	
+	
+	/*
+	public void checkForFluctuation()
+	{	
+		Builder InformationDialogue; 
+		InformationDialogue = new AlertDialog.Builder(Portfolio.this);
+		InformationDialogue.setTitle("Error Downloading Data");
+		InformationDialogue.setMessage("No network connection - cannot download data");
+		InformationDialogue.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() 
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which) 
+			{
+				dialog.dismiss();
+			}
+		});
+		InformationDialogue.show();
+	}*/
 	
 }

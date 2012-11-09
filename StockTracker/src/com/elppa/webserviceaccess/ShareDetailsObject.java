@@ -103,6 +103,23 @@ public class ShareDetailsObject implements Serializable
 		ErrorMessage = detail + message;
 	}
 	
+	public boolean getIsRocketing()
+	{
+		if(getChangeFromOpening() >= 0.1)
+			return true;
+		else
+			return false;
+	}
+	
+	
+	public boolean getIsPlummeting()
+	{
+		if(getChangeFromOpening() <= -0.2)
+			return true;
+		else
+			return false;
+	}
+	
 	public void setHistoricalCloseValue(float newHistoricalClosingValue)
 	{
 		HistoricalCloseValue = newHistoricalClosingValue;
