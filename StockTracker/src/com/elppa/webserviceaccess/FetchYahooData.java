@@ -48,9 +48,9 @@ public class FetchYahooData
 	 * 
 	 */
 
-	String URL = "http://query.yahooapis.com/v1/public/yql?q=%1&format=json&env=store://datatables.org/alltableswithkeys";
-	String YQL = "SELECT CC FROM yahoo.finance.quotes WHERE symbol IN (SS)";
-	String HSQ = "SELECT CC FROM yahoo.finance.historicaldata WHERE symbol = SS AND startDate = DD AND endDate = DD";
+	String URL = null;
+	String YQL = null;
+	String HSQ = null;
 	
 	String TimePeriod = "";
 	String JSONResponse;
@@ -62,8 +62,26 @@ public class FetchYahooData
 	 */
 	public FetchYahooData()
 	{
+		URL = "http://query.yahooapis.com/v1/public/yql?q=%1&format=json&env=store://datatables.org/alltableswithkeys";
+		YQL = "SELECT CC FROM yahoo.finance.quotes WHERE symbol IN (SS)";
+		HSQ = "SELECT CC FROM yahoo.finance.historicaldata WHERE symbol = SS AND startDate = DD AND endDate = DD";
 		
+	}
+	
+	/**
+	 * Constructor with alternative YQL statement and HSQ statement
+	 * 
+	 * @param YQL
+	 * @param HSQ
+	 */
+	
+	public FetchYahooData(String newYQL, String newHSQ)
+	{
+		if(!newYQL.equals(""))
+			YQL = newYQL;
 		
+		if(!newHSQ.equals(""))
+			HSQ = newHSQ;
 	}
 
 	
@@ -199,7 +217,6 @@ public class FetchYahooData
 	private void getCurrentJSONData(String JSONObject)
 	{
 		int numberOfResults = 0;
-		String[] requiredDetail = JanetShareDetails.getCurrentShareDetails();
     	
 		try
 		{

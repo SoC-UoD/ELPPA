@@ -1,9 +1,3 @@
-//textviews ids for output
-//txt_total : will take the total value with a proceeding £ symbol
-//txt_total_date : will take the reference date used for total value calculation
-//txt_change: will take the change between last week and the week before that
-//btn_back : button that returns to the home activity
-//btn_refresh
 package com.elppa.stocktracker;
 
 import java.text.NumberFormat;
@@ -18,25 +12,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.support.v4.app.NavUtils;
-
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.elppa.stocktracker.Home.AccessWebserviceTask;
 import com.elppa.webserviceaccess.ShareDetailsObject;
 import com.elppa.webserviceaccess.FetchYahooData;
 
@@ -149,8 +133,7 @@ public class TotalValue extends Activity
     	
     	cal.setTime(new Date());
     	cal.set(Calendar.DAY_OF_MONTH, lastFridayDate);
-    	
-    	
+    		
     	return sdf.format(cal.getTime());
     }
     
