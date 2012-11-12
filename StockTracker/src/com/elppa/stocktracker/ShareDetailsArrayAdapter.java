@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class ShareDetailsArrayAdapter extends ArrayAdapter <ShareDetailsObject>
@@ -36,7 +38,7 @@ public class ShareDetailsArrayAdapter extends ArrayAdapter <ShareDetailsObject>
 		
 	    LayoutInflater inflater = (LayoutInflater) cxt.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View rowView = inflater.inflate(R.layout.share_item, parent, false);
-	    
+
 	    TextView Symbol = (TextView) rowView.findViewById(R.id.Symbol);
 	    TextView Price = (TextView) rowView.findViewById(R.id.Price);
 	    TextView Quantity = (TextView) rowView.findViewById(R.id.Quantity);
@@ -44,8 +46,14 @@ public class ShareDetailsArrayAdapter extends ArrayAdapter <ShareDetailsObject>
 	    TextView CalculatedValue = (TextView) rowView.findViewById(R.id.CalcValue);
 	    TextView ChangeValue = (TextView) rowView.findViewById(R.id.ChangeValue);
 	    TextView ChangeLabel = (TextView) rowView.findViewById(R.id.Change);
+	    ImageView statusImage = (ImageView) rowView.findViewById(R.id.imageView1);    
 	    
 	    Symbol.setText(SDO[position].getCompanyName());
+ 
+	    if(SDO[position].getIsRocketing())
+	    	statusImage.setImageResource(R.drawable.rocket);
+	    else if(SDO[position].getIsPlummeting())
+	    	statusImage.setImageResource(R.drawable.plummet);
 	    
 	    Price.setText(String.format("%.0f",SDO[position].getShareValue())+"p");
 	    Quantity.setText("Qty: " + String.format("%.0f",SDO[position].getShareQuantity()));   
@@ -66,7 +74,7 @@ public class ShareDetailsArrayAdapter extends ArrayAdapter <ShareDetailsObject>
 	    }
 	    
 	    ChangeValue.setText(formatter.format(SDO[position].getChangeFromOpening()));
-	   
+
 	    return rowView;
 	  }
 }	

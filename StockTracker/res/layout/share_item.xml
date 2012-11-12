@@ -1,84 +1,87 @@
-                                <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:columnCount="4"
-                    android:padding="10px"
-                    android:rowCount="3" >
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_row="1"
+    android:shrinkColumns="*"
+    android:stretchColumns="*"
+     >
 
-                    <TextView
-                        android:id="@+id/Symbol"
-                        android:layout_column="0"
-                        android:layout_gravity="fill_horizontal"
-                        android:layout_row="0"
-                        android:text="Large Text"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-                    <TextView
-                        android:id="@+id/errorMessage"
-                        android:layout_column="2"
-                        android:layout_gravity="right"
-                        android:layout_row="0"
-                        android:text=""
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/Symbol"
+            android:layout_width="fill_parent"
+            android:layout_span="2"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                    <TextView
-                        android:id="@+id/Price"
-                        android:layout_column="0"
-                        android:layout_columnSpan="1"
-                        android:layout_gravity="left"
-                        android:layout_row="1"
-                        android:text="Medium Text"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center" />
+        
+        <TextView
+            android:id="@+id/Wrapper"
+            android:layout_width="wrap_content"
+            android:text="" />
 
-                    <TextView
-                        android:id="@+id/Change"
-                        android:layout_column="3"
-                        android:layout_columnSpan="1"
-                        android:layout_gravity="right"
-                        android:layout_row="1"
-                        android:text="Medium Text"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+    </TableRow>
 
-                    <TextView
-                        android:id="@+id/Quantity"
-                        android:layout_column="0"
-                        android:layout_columnSpan="1"
-                        android:layout_gravity="left"
-                        android:layout_row="2"
-                        android:text="Medium Text"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-                    <TextView
-                        android:id="@+id/Value"
-                        android:layout_column="1"
-                        android:layout_columnSpan="1"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_row="1"
-                        android:text="Medium Text"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/Price"
+            android:layout_width="wrap_content"
+            android:layout_gravity="left"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                    <TextView
-                        android:id="@+id/CalcValue"
-                        android:layout_column="1"
-                        android:layout_columnSpan="1"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_row="2"
-                        android:text="Medium Text"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/Value"
+            android:layout_width="fill_parent"
+            android:layout_gravity="left"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                    <TextView
-                        android:id="@+id/ChangeValue"
-                        android:layout_column="3"
-                        android:layout_columnSpan="1"
-                        android:layout_gravity="right"
-                        android:layout_row="2"
-                        android:text="Medium Text"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/Change"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                    <Space
-                        android:layout_width="82dp"
-                        android:layout_height="1dp"
-                        android:layout_column="1"
-                        android:layout_row="0" />
+    </TableRow>
 
-                </GridLayout>
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/Quantity"
+            android:layout_gravity="left"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/CalcValue"
+            android:layout_width="fill_parent"
+            android:layout_gravity="left"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/ChangeValue"
+            android:layout_gravity="right"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </TableRow>
+</TableLayout>

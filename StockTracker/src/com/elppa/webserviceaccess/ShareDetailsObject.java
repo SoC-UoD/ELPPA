@@ -41,11 +41,13 @@ public class ShareDetailsObject implements Serializable
 	 */
 	public ShareDetailsObject()
 	{
-		Symbol = new String("XXX");
-		CompanyName = new String("CHOAM");
+		Symbol = new String("Undefined Symbol");
+		CompanyName = new String("Undefined Company");
 		ShareValue = 0.0f;
 		SharesOutstanding = 0.0f;
 	}
+	
+	
 	
 	/**
 	 * Fully qualified constructor
@@ -67,6 +69,11 @@ public class ShareDetailsObject implements Serializable
 		}
 		
 		OpeningValue = newOpeningValue;
+	}
+	
+	public float getOpeningValue()
+	{
+		return OpeningValue;
 	}
 
 	public float getChangeFromOpening()
