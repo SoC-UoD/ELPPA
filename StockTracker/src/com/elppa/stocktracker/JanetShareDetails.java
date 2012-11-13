@@ -27,6 +27,11 @@ public class JanetShareDetails
 	private static int numEXPShares = 258;
 	private static int numSmthNphShares = 1219;
 	
+	/**
+	 * 
+	 * Values looked up on the 1st of October 2012
+	 * 
+	 */
 	private static float BPShares = 1903000000f;
 	private static float HSBCShares = 161100000f;
 	private static float EXPShares = 989000000f;

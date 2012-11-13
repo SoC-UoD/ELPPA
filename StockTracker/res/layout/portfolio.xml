@@ -18,12 +18,12 @@
     android:orientation="horizontal"
     android:layout_alignParentBottom="true"
     style="@android:style/ButtonBar" >
-
+
     <ImageView
         android:id="@+id/portfolio_back"
         android:layout_width="0.0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"     
+        android:layout_weight="1"
         android:src="@drawable/back" />
     
     <TextView

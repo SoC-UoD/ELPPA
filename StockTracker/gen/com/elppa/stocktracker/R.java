@@ -46,6 +46,7 @@ public final class R {
         public static final int menu_run1=0x7f08001a;
         public static final int menu_run2=0x7f08001b;
         public static final int menu_run3=0x7f08001c;
+        public static final int nofeed=0x7f080020;
         public static final int notificationHeader=0x7f080003;
         public static final int plummet1=0x7f08001f;
         public static final int portfolioDetailsButton=0x7f080005;
@@ -82,6 +83,7 @@ public final class R {
         public static final int menu_run1=0x7f050002;
         public static final int menu_run2=0x7f050004;
         public static final int menu_run3=0x7f050005;
+        public static final int nofeedmessage=0x7f05000a;
         public static final int plummet=0x7f050009;
         public static final int title_activity_home=0x7f050003;
     }

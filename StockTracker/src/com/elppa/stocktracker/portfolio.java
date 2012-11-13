@@ -1,9 +1,3 @@
-// symbol*_name : share symbol
-// symbol*_price : share price 
-// symbol*_qnt : shares quantity
-// symbol*_total: share price * quantity
-// * = 1,2,3,4,5
-
 package com.elppa.stocktracker;
 
 import java.text.NumberFormat;
@@ -101,21 +95,44 @@ public class Portfolio extends ListActivity
     	{
     		case R.id.rocket1:
 	    		// Test Object defined to create a run on shares.    			
-    			ShareDetails = new ShareDetailsObject[1];
+    			ShareDetails = new ShareDetailsObject[2];
 	    		ShareDetails[0] = new ShareDetailsObject("BP Rocket", "BP.L", 120, JanetShareDetails.getSharesOutstandingByKey("BP.L") * 0.3f);	
 	    		ShareDetails[0].setShareQuantity(100f);
 	    		ShareDetails[0].setCurrentShareValue(90);
 	    		ShareDetails[0].setOpeningValue(50);
+	    		ShareDetails[1] = new ShareDetailsObject("HSBC Normal", "HSBA.L", 120, JanetShareDetails.getSharesOutstandingByKey("BP.L") * 0.3f);	
+	    		ShareDetails[1].setShareQuantity(120f);
+	    		ShareDetails[1].setCurrentShareValue(51);
+	    		ShareDetails[1].setOpeningValue(50);
 	    		setShareList(ShareDetails);
 	    		return true;
     		case R.id.plummet1:
-    			ShareDetails = new ShareDetailsObject[1];
+    			ShareDetails = new ShareDetailsObject[2];
 	    		ShareDetails[0] = new ShareDetailsObject("BP Plummet", "BP.L", 120, JanetShareDetails.getSharesOutstandingByKey("BP.L") * 0.3f);	
 	    		ShareDetails[0].setShareQuantity(100f);
 	    		ShareDetails[0].setCurrentShareValue(70);
 	    		ShareDetails[0].setOpeningValue(100);
+	    		ShareDetails[1] = new ShareDetailsObject("HSBC Normal", "HSBA.L", 120, JanetShareDetails.getSharesOutstandingByKey("BP.L") * 0.3f);	
+	    		ShareDetails[1].setShareQuantity(120f);
+	    		ShareDetails[1].setCurrentShareValue(51);
+	    		ShareDetails[1].setOpeningValue(50);
 	    		setShareList(ShareDetails);
 	    		return true;	
+    		case R.id.nofeed:
+    		AlertDialog.Builder InformationDialogue = new AlertDialog.Builder(Portfolio.this);
+			InformationDialogue.setTitle("No Feed");
+			InformationDialogue.setMessage("Unable to download feed");
+			InformationDialogue.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() 
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int which) 
+				{
+					Portfolio.this.finish();
+					dialog.dismiss();
+				}
+			});
+			
+			InformationDialogue.show();
     	}  	
     	return false;
     }
@@ -139,13 +156,13 @@ public class Portfolio extends ListActivity
 	    	message += SDO.getCompanyName();
 	    	message += " has plummeted by ";
 	    	message += percentFormatter.format(SDO.getChangeFromOpening());
-	    	message += " current value :" + SDO.getShareValue() + " opening value: " + SDO.getOpeningValue();
+	    	message += " \ncurrent value :" + SDO.getShareValue() + " \nopening value: " + SDO.getOpeningValue();
 	    }else if(SDO.getIsRocketing())
 	    {
 	    	message += SDO.getCompanyName();
 	    	message += " has rocketed by ";
 	    	message += percentFormatter.format(SDO.getChangeFromOpening());
-	    	message += " current value :" + SDO.getShareValue() + " opening value: " + SDO.getOpeningValue();
+	    	message += " \ncurrent value :" + SDO.getShareValue() + " \nopening value: " + SDO.getOpeningValue();
 	    }else
 	    {
 	    	message += SDO.getCompanyName();

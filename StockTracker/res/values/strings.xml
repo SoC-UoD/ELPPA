@@ -10,5 +10,6 @@
     <string name="menu_clear">Clear Alert/s</string>
     <string name="menu_rocket1">Simulate Rocket</string>
     <string name="plummet">Simulate Plummet</string>
+    <string name="nofeedmessage">No Feed</string>
 
 </resources>
