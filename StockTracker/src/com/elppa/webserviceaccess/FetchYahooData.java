@@ -40,6 +40,20 @@ import android.util.Log;
  *
  */
 
+/**
+ * Refactored 14/11/12 - Extract Class
+ * @author theodorostheodoridis + JWO
+ *
+ * Attempted to simplify the JSON parsing by breaking code into a class that only deals with
+ * parsing JSON and creating an SDO model object.
+ * 
+ * This class now fetches data from the Web and passes to a ParseJSON object to get a valid
+ * SDO.
+ * 
+ * SDO array is passed back to controller(GUI)
+ *
+ */
+
 public class FetchYahooData
 {
 	/**
@@ -58,7 +72,7 @@ public class FetchYahooData
 	ShareDetailsObject[] SDO = null;
 	
 	/**
-	 * TODO Complete constructor (if necessary)
+	 *  Initialise Addresses and YQL queries
 	 */
 	public FetchYahooData()
 	{
@@ -84,6 +98,18 @@ public class FetchYahooData
 			HSQ = newHSQ;
 	}
 
+	
+	/**
+	 * Pair programming JWO + TT +DCW
+	 * 
+	 * This function accesses the historical data available from Yahoo Finance by a separate 
+	 * YQL query
+	 * 
+	 * @param Columns
+	 * @param Symbols
+	 * @param Date
+	 * @return
+	 */
 	
 	public ShareDetailsObject[] DownloadHistoricalYahooData(String[] Columns, String [] Symbols, String Date)
 	{
@@ -130,6 +156,8 @@ public class FetchYahooData
 	
 	
 	/**
+	 * 
+	 * Pair Programmed - JWO + TT
 	 * 
 	 * Takes an array of columns required from JSON data and concatenates them together in a comma separated list
 	 * 
@@ -185,6 +213,7 @@ public class FetchYahooData
 		return SB.toString();
 	}
 	
+	
 	private ShareDetailsObject getHistoricalJSONData(String JSONObject)
 	{
 		ShareDetailsObject NewShareDetails = new ShareDetailsObject();
@@ -225,11 +254,7 @@ public class FetchYahooData
 	    	JSONObject outer = allDetails.getJSONObject(0);
 	    	
 	    	JSONObject query = outer.getJSONObject("query");
-	    	
-	    	/**
-	    	 * TODO Modify code to extract date and time from JSON at "results" level object - may have to change depending on the requirements for the date and time...
-	    	 * 
-	    	 */
+	    
 	    	
 	    	JSONObject results = query.getJSONObject("results");
 	    	numberOfResults = Integer.valueOf(query.getString("count"));
@@ -241,60 +266,39 @@ public class FetchYahooData
 	    		Log.i(FetchYahooData.class.toString(), "Fetching multiple items.");
 	    		
 	        	JSONArray quote = results.getJSONArray("quote");
+	        	
+	        	/**
+	        	 * Refactored - separate class extracted.
+	        	 */
 	        	        	
 	        	for(int i = 0; i < quote.length(); i++)
 	        	{
-	        		JSONObject currDetails = quote.getJSONObject(i);
+	        		//JSONObject retrievedObject = quote.getJSONObject(i);
+	        		ParseJSON details = new ParseJSON();
+	        		details.getJSONObject(quote.getJSONObject(i));
 	        		SDO[i] = new ShareDetailsObject();
-	        		
-	        		if(currDetails.get("AskRealtime").toString().equals("null"))
-	        			SDO[i].setCurrentShareValue(0.0f);
-	        		else
-	        			SDO[i].setCurrentShareValue(Float.valueOf((String) currDetails.get("AskRealtime")));
-	        		
-	        		if(currDetails.get("Symbol").toString().equals("null"))
-	        			SDO[i].setSymbol("No Data");
-	        		else
-	        			SDO[i].setSymbol((String)currDetails.get("Symbol"));
-	        		
-	        		if(currDetails.get("Name").toString().equals("null"))
-	        			SDO[i].setCompanyName("No Data");
-	        		else
-	        			SDO[i].setCompanyName((String) currDetails.get("Name"));
-	        		
-	        		if(currDetails.getString("PreviousClose").toString().equals("null"))
-	        			SDO[i].setClosingValue(0.0f);
-	        		else
-	        			SDO[i].setClosingValue(Float.valueOf((String) currDetails.getString("PreviousClose")));
-	        		
-	        		if(currDetails.get("Volume").toString().equals("null"))
-	        			SDO[i].setVolumeTraded(0.0f);
-	        		else
-	        			SDO[i].setVolumeTraded(Float.valueOf((String) currDetails.get("Volume")));
-	        		
-	        		if(currDetails.get("Open").toString().equals("null"))
-	        			SDO[i].setOpeningValue(0.0f);
-	        		else
-	        			SDO[i].setOpeningValue(Float.valueOf((String) currDetails.get("Open")));
-	        		
+	        		details.checkNullValues();
+	        		SDO[i]= details.returnSDO();
+	   
+	        		/**
+	        		 * Sets the number of outstanding shares from the static data provided
+	        		 * 
+	        		 */
 	        		if(SDO[i].getSymbol() == null)
 	        			SDO[i].setShareQuantity(0.0f);
 	        		else
-	        			SDO[i].setShareQuantity(JanetShareDetails.getSharesByKey(SDO[i].getSymbol()));
+	        			SDO[i].setShareQuantity(JanetShareDetails.getSharesByKey(SDO[i].getSymbol()));   		
 	        	}
 	    	}else
 	    	{
 	    		Log.i(FetchYahooData.class.toString(), "Fetching single item");
-	    		
+        		
 	    		JSONObject quoteDetails = results.getJSONObject("quote");
-	    		SDO[0] = new ShareDetailsObject();
-	    		SDO[0].setCurrentShareValue(Float.valueOf((String) quoteDetails.get("LastTradePriceOnly")));
-	    		SDO[0].setSymbol((String)quoteDetails.get("symbol"));
-	    		SDO[0].setCompanyName((String) quoteDetails.get("Name"));
-	    		SDO[0].setClosingValue(Float.valueOf((String) quoteDetails.getString("PreviousClose")));
-	    		SDO[0].setVolumeTraded(Float.valueOf((String) quoteDetails.getString("Volume")));
-	    		SDO[0].setShareQuantity(JanetShareDetails.getSharesByKey(SDO[0].getSymbol()));
-	    		
+	    		ParseJSON details = new ParseJSON();
+        		details.getJSONObject(quoteDetails);
+        		SDO[0] = new ShareDetailsObject();
+        		details.checkNullValues();
+        		SDO[0]= details.returnSDO();		
 	    	}
 		}catch (Exception ex)
 		{
@@ -348,6 +352,9 @@ public class FetchYahooData
 	/**
 	 * 
 	 * fetchJSON accesses Yahoo finance API over HTTP.
+	 * 
+	 * Refactor - This should probably be extracted to a separate network access class - no further time to implement
+	 * 
 	 * @return String JSON object or null if no data is returned.
 	 */
 	

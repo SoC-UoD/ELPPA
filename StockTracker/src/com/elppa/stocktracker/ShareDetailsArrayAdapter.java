@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class ShareDetailsArrayAdapter extends ArrayAdapter <ShareDetailsObject>
@@ -50,10 +49,25 @@ public class ShareDetailsArrayAdapter extends ArrayAdapter <ShareDetailsObject>
 	    
 	    Symbol.setText(SDO[position].getCompanyName());
  
+	    /**
+	     * 
+	     * JO + TT
+	     * 
+	     * Code added to display whether price is plummeting or rocketing
+	     * 
+	     */
+	    
 	    if(SDO[position].getIsRocketing())
 	    	statusImage.setImageResource(R.drawable.rocket);
 	    else if(SDO[position].getIsPlummeting())
 	    	statusImage.setImageResource(R.drawable.plummet);
+	    
+	    
+	    /**
+	     * 
+	     * Configure the GUI Options
+	     * 
+	     */
 	    
 	    Price.setText(String.format("%.0f",SDO[position].getShareValue())+"p");
 	    Quantity.setText("Qty: " + String.format("%.0f",SDO[position].getShareQuantity()));   
@@ -64,9 +78,14 @@ public class ShareDetailsArrayAdapter extends ArrayAdapter <ShareDetailsObject>
 	    formatter = NumberFormat.getPercentInstance();
 	    formatter.setMaximumFractionDigits(2);
 	    
+	    /**
+	     * change text colour for percentage change option
+	     * 
+	     */
+	    
 	    if(SDO[position].getChangeFromOpening() > 0)
 	    {
-	    	ChangeValue.setTextColor(Color.parseColor("#5FDB54"));
+	    	ChangeValue.setTextColor(Color.parseColor("#428A1B"));
 	    	
 	    }else
 	    { 	
